@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pi Webpage</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/gh/PiHacker/pi@master/dist/pi.min.js"></script>
     <style>
       body {
         padding: 20px;
@@ -22,22 +23,22 @@
     
     <form>
       Font:
-      <select id="font-select" onchange="setFont()">
+      <select id="font-family" onchange="setFont()">
         <option value="Arial">Arial</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Courier New">Courier New</option>
+        <!-- Add more options here -->
       </select>
-
-      Font Size: 
-      <input type="number" id="font-size" min="10" max="36" step="2" onchange="setFontSize()">
+      Font Size (px):
+      <input type="number" id="font-size" min="1" step="1" onchange="setFontSize()">
+      Grouping:
+      <input type="number" id="grouping" min="1" max="10" step="1" value="4" onchange="updateGrouping()">
     </form>
 
     <script>
-      var pi = '3.141592653589793238462643383279502884197169399379...';
-      document.getElementById('pi-container').innerHTML = pi.substr(0, 10000);
+      var pi = PiHacker.generateDigits(100);
+      document.getElementById('pi-container').innerHTML = pi;
 
       function setFont() {
-        var fontFamily = document.getElementById('font-select').value;
+        var fontFamily = document.getElementById('font-family').value;
         document.getElementById('pi-container').style.fontFamily = fontFamily;
       }
 
@@ -45,6 +46,13 @@
         var fontSize = parseInt(document.getElementById('font-size').value);
         document.getElementById('pi-container').style.fontSize = fontSize + 'px';
       }
+
+      function updateGrouping() {
+        var grouping = parseInt(document.getElementById('grouping').value);
+        document.getElementById('pi-container').innerHTML = pi.replace(/\B(?=(?:\d{grouping})+(?!\d)/g, '&nbsp;');
+      }
+
+      updateGrouping();
     </script>
   </body>
 </html>
