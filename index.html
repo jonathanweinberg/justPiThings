@@ -1,61 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pi Webpage</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Using jsDelivr as an alternative CDN for big.js -->
     <script src="https://cdn.jsdelivr.net/npm/big.js"></script>
     <style>
-      body {
-        padding: 20px;
-      }
-      #pi-container {
-        font-family: Arial, sans-serif; /* change this to any common font */
-        font-size: 16px; /* adjust as needed */
-      }
+        body {
+            padding: 20px;
+        }
+        #pi-container {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <h1>The First Thousand Digits of Pi</h1>
 
-    <div id="pi-container">
-    </div>
+    <div id="pi-container"></div>
     
     <form>
-      Font:
-      <select id="font-family" onchange="setFont()">
-        <option value="Arial">Arial</option>
-        <!-- Add more options here -->
-      </select>
-      Font Size (px):
-      <input type="number" id="font-size" min="1" step="1" onchange="setFontSize()">
-      Grouping:
-      <input type="number" id="grouping" min="1" max="10" step="1" value="4" onchange="updateGrouping()">
+        Font:
+        <select id="font-family" onchange="setFont()">
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+        Font Size (px):
+        <input type="number" id="font-size" min="1" step="1" onchange="setFontSize()" value="16">
+        Grouping:
+        <input type="number" id="grouping" min="1" max="10" step="1" value="4" onchange="updateGrouping()">
     </form>
 
     <script>
-      var pi = new BigNumber('3.1415926535897932384626433832795028841971693993751'); // first 20 digits of pi
-      document.getElementById('pi-container').innerHTML = pi.toFixed(20); // display first 20 digits
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof BigNumber !== 'undefined') {
+                // Initialization of BigNumber with the first 20 digits of Pi
+                var pi = new BigNumber('3.1415926535897932384626433832795028841971693993751');
+                
+                // Initial setup functions
+                function displayPi() {
+                    document.getElementById('pi-container').innerHTML = pi.toFixed(1000); // Adjusted to display first 1000 digits
+                }
+                
+                function setFont() {
+                    var fontFamily = document.getElementById('font-family').value;
+                    document.getElementById('pi-container').style.fontFamily = fontFamily;
+                }
 
-      function setFont() {
-        var fontFamily = document.getElementById('font-family').value;
-        document.getElementById('pi-container').style.fontFamily = fontFamily;
-      }
+                function setFontSize() {
+                    var fontSize = parseInt(document.getElementById('font-size').value);
+                    document.getElementById('pi-container').style.fontSize = fontSize + 'px';
+                }
 
-      function setFontSize() {
-        var fontSize = parseInt(document.getElementById('font-size').value);
-        document.getElementById('pi-container').style.fontSize = fontSize + 'px';
-      }
-            
-      function updateGrouping() {
-        var grouping = parseInt(document.getElementById('grouping').value);
-        var formattedPi = pi.toFormat(20).replace(/(\.\d{3})/g, '$1\n'); // replace with newline instead of a <br> tag
-        document.getElementById('pi-container').innerHTML = formattedPi;
-      }
+                function updateGrouping() {
+                    // This assumes the desire is to group digits for readability
+                    var grouping = parseInt(document.getElementById('grouping').value);
+                    var piString = pi.toFixed(1000); // Get pi as string with 1000 digits
+                    var regex = new RegExp('.{1,' + grouping + '}', 'g'); // Create regex based on grouping value
+                    var groupedPi = piString.match(regex).join(' '); // Group digits and join with spaces
+                    document.getElementById('pi-container').innerHTML = groupedPi;
+                }
 
-      setFont();
-      setFontSize();
-      updateGrouping();
+                // Initial display and settings
+                displayPi();
+                setFont(); // Set the initial font based on the default select option
+                setFontSize(); // Set the initial font size
+                updateGrouping(); // Update grouping based on the default input value
+            } else {
+                console.error('BigNumber is not defined. Please check the BigNumber library loading.');
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
