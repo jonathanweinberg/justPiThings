@@ -46,10 +46,10 @@
         var fontSize = parseInt(document.getElementById('font-size').value);
         document.getElementById('pi-container').style.fontSize = fontSize + 'px';
       }
-
+            
       function updateGrouping() {
         var grouping = parseInt(document.getElementById('grouping').value);
-        var formattedPi = pi.toFormat(20).replace(/(\.\d{3})/g, '$1<br>'); // insert line breaks every 4 digits
+        var formattedPi = pi.toFormat(20).replace(/(\.\d{3})/g, '$1\n'); // replace with newline instead of a <br> tag
         document.getElementById('pi-container').innerHTML = formattedPi;
       }
 
