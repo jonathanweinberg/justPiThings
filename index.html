@@ -1,22 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pi Digits</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Webpage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      body {
+        padding: 20px;
+      }
+      #pi-container {
+        font-family: Arial, sans-serif; /* change this to any common font */
+        font-size: 16px; /* adjust as needed */
+      }
+    </style>
   </head>
   <body>
-    <h1 id="pi">Loading...</h1>
-    <label for="groups">Groups:</label>
-    <input type="number" id="groups" value="4" min="1" max="15" />
-    <br />
-    <label for="fontSize">Font Size:</label>
-    <input type="number" id="fontSize" value="20" min="10" max="100" />
-    <button onclick="changeFontSize()">Change Font Size</button>
-    <br /><br />
-    <label for="darkMode">Dark Mode</label>
-    <input type="checkbox" id="darkMode" onclick="toggleTheme()" checked>
-    <script src="app.js"></script>
+    <h1>The First Thousand Digits of Pi</h1>
+
+    <div id="pi-container">
+    </div>
+    
+    <form>
+      Font:
+      <select id="font-select" onchange="setFont()">
+        <option value="Arial">Arial</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Courier New">Courier New</option>
+      </select>
+
+      Font Size: 
+      <input type="number" id="font-size" min="10" max="36" step="2" onchange="setFontSize()">
+    </form>
+
+    <script>
+      var pi = '3.141592653589793238462643383279502884197169399379...';
+      document.getElementById('pi-container').innerHTML = pi.substr(0, 10000);
+
+      function setFont() {
+        var fontFamily = document.getElementById('font-select').value;
+        document.getElementById('pi-container').style.fontFamily = fontFamily;
+      }
+
+      function setFontSize() {
+        var fontSize = parseInt(document.getElementById('font-size').value);
+        document.getElementById('pi-container').style.fontSize = fontSize + 'px';
+      }
+    </script>
   </body>
 </html>
