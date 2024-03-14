@@ -1,15 +1,9 @@
 body {
-  font-family: Arial, sans-serif;
+  color: #000; /* dark mode */
 }
-
-h1 {
-  margin: 0;
-  padding: 20px;
-  text-align: center;
-}
-
-input[type="number"] {
-  width: 50px;
-  display: block;
-  margin-bottom: 10px;
+input[type="number"], button, label {
+  background-color: white; /* dark mode */
+  border: none;
+  border-radius: 5px;
+  color: black; /* dark mode */
 }

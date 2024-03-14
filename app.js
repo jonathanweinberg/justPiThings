@@ -1,43 +1,33 @@
 const piElement = document.getElementById("pi");
-const groupsInput = document.getElementById("groups");
 const fontSizeInput = document.getElementById("fontSize");
-const saveButton = document.querySelector("button");
+const groupsInput = document.getElementById("groups");
 
-function generatePi() {
-  const groups = Math.floor(parseInt(groupsInput.value));
-  const digitsPerGroup = 15; // you can adjust this value as needed
-  const totalDigits = groups * digitsPerGroup;
-  const piDigits = [];
-
-  for (let i = 0; i < totalDigits; i++) {
-    piDigits[i] = Math.random() * 10 | 0; // generate a random digit between 0 and 9
+function generatePiDigits() {
+  const digits = [];
+  for (let i = 0; i < Math.floor(Math.random() * 10) + 3; i++) {
+    digits.push(i % 10);
   }
+  piElement.innerHTML = digits.join("");
+}
+generatePiDigits();
 
-  let digits = "";
-  for (let i = 0; i < piDigits.length; i++) {
-    if ((i + 1) % groups === 0 && i !== 0) {
-      digits += "<br>";
-    } else if (i === 0) {
-      continue;
-    }
-    digits += piDigits[i];
-  }
-
+function changeFontSize() {
   const fontSize = parseInt(fontSizeInput.value);
-  piElement.innerHTML = `<h1 style="font-size: ${fontSize}px">${digits}</h1>`;
+  document.body.style.fontSize = `${fontSize}px`;
 }
 
-function savePi() {
-  const piText = new Blob([piDigits.join("")], { type: "text/plain" });
-  const downloadLink = document.createElement("a");
-  downloadLink.href = window.URL.createObjectURL(piText);
-  downloadLink.setAttribute("download", "pi-digits.txt");
-  downloadLink.style.display = "none";
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
+function toggleTheme() {
+  const darkMode = document.getElementById("darkMode");
+  const body = document.querySelector("body");
+  if (darkMode.checked) {
+    body.style.backgroundColor = "#212121";
+    piElement.style.color = "white";
+    groupsInput.style.backgroundColor = "#333";
+    fontSizeInput.style.backgroundColor = "#333";
+  } else {
+    body.style.backgroundColor = "white";
+    piElement.style.color = "black";
+    groupsInput.style.backgroundColor = "white";
+    fontSizeInput.style.backgroundColor = "white";
+  }
 }
-
-groupsInput.addEventListener("input", generatePi);
-fontSizeInput.addEventListener("input", generatePi);
-saveButton.addEventListener("click", savePi);
-generatePi(); // call the function on page load to display initial digits
